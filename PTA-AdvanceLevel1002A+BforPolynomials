@@ -1,0 +1,96 @@
+/*****************************************************************************************************************************
+* 主题：PTA-AdvanceLevel 1002 A+B for Polynomials
+* 时间：2020-07-21
+*****************************************************************************************************************************/
+#include <iostream>
+#include <cstring>
+#include <iomanip>
+using namespace std;
+
+void cinPolynomials(int & length, int * pExp, double * pCoe);
+void sumPolynomials(int pL1, int pL2, double * pCoe1, double * pCoe2, int * pExp1, int * pExp2, double * sCoe, int * sExp);
+void printPolynomials(int * sumExp, double * sumCoe);
+int main(void){
+    int length1(0);//多项式1不为零的项数
+    int length2(0);//
+    int p1Exp[11]; //多项式1的指数
+    int p2Exp[11];
+    memset(p1Exp,-1,sizeof(int)*11);//多项式1指数初始化
+    memset(p2Exp,-1,sizeof(int)*11);
+    double p1Coe[11];//多项式1的系数
+    double p2Coe[11];
+    memset(p1Coe,-1,sizeof(double)*11);//多项式1系数初始化
+    memset(p2Coe,-1,sizeof(double)*11);
+    int sumExp[22];//和多项式的指数
+    memset(sumExp,-1,sizeof(int)*22);
+    double sumCoe[22];//和多项式的系数
+    memset(sumCoe,-1,sizeof(double)*22);
+
+    //多项式的输入
+    cinPolynomials(length1,p1Exp,p1Coe);
+    cinPolynomials(length2,p2Exp,p2Coe);
+
+    //和多项式的计算
+    sumPolynomials(length1,length2,p1Coe,p2Coe,p1Exp,p2Exp,sumCoe,sumExp);
+
+    //和多项式的输出
+    printPolynomials(sumExp,sumCoe);
+
+   return 0;
+}
+void cinPolynomials(int & length, int * pExp, double * pCoe){
+    cin >> length;
+    for(int i=0; i<length; i++){
+        cin >> pExp[i] >> pCoe[i];
+    }
+}
+void printPolynomials(int * sExp, double * sCoe){
+    int i(0);
+    int lengthSum(0);
+    while ((-1) != sExp[lengthSum]) {
+        lengthSum++;
+    }
+    cout << lengthSum;
+    if(0 != lengthSum){
+        cout << " ";
+    for(; (-1 != sExp[i+1]); i++){
+        //cout << sExp[i] << " " << setiosflags(ios::fixed)<<setprecision(1) << sCoe[i] << " ";
+        printf("%d %.1lf ",sExp[i],sCoe[i]);
+    }
+    cout << sExp[i] << " " << setiosflags(ios::fixed)<<setprecision(1) << sCoe[i];
+    }
+}
+void sumPolynomials(int pL1, int pL2, double * pCoe1, double * pCoe2, int * pExp1, int * pExp2, double * sCoe, int * sExp){
+    int pI1(0);//遍历多项式1的“指针”
+    int pI2(0);
+    int sumI3(0);//遍历和多项式的“指针”
+    while ((pI1<pL1) || (pI2<pL2)) {
+        if(pExp1[pI1] > pExp2[pI2]){
+            sExp[sumI3] = pExp1[pI1];
+            sCoe[sumI3] = pCoe1[pI1];
+            pI1++;
+            sumI3++;
+            continue;
+        }else if(pExp1[pI1] < pExp2[pI2]){
+            sExp[sumI3] = pExp2[pI2];
+            sCoe[sumI3] = pCoe2[pI2];
+            pI2++;
+            sumI3++;
+            continue;
+        }else if (pExp1[pI1] == pExp2[pI2]){
+            if(pCoe1[pI1] + pCoe2[pI2] == 0){
+                pI1++;
+                pI2++;
+                continue;
+            }
+            sExp[sumI3] = pExp2[pI2];
+            sCoe[sumI3] = pCoe2[pI2] + pCoe1[pI1];
+            pI1++;
+            pI2++;
+            sumI3++;
+            continue;
+        }
+     }
+}
+
+
