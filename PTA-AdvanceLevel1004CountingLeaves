@@ -1,0 +1,38 @@
+/***********************************************************************************************************************************
+* 主题：1004 Counting Leaves
+* 时间：2020-07-25
+***********************************************************************************************************************************/
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+vector<int> v[100];
+int flag[100]={0},maxdepth=-1;
+void dfs(int n,int depth)
+{
+    if(v[n].size()==0){
+        flag[depth]++;
+        maxdepth=max(maxdepth,depth);
+        return;
+    }
+    for(int i=0;i<v[n].size();i++)
+        dfs(v[n][i],depth+1);
+}
+int main()
+{
+    int n,m,node,k,a;
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+            cin>>node>>k;
+            for(int j=0;j<k;j++){
+                cin>>a;
+                v[node].push_back(a);
+            }
+    }
+    dfs(1,0);
+    for(int i=0;i<=maxdepth;i++){
+        if(i!=0) cout<<" ";
+        cout<<flag[i];
+    }
+    return 0;
+}
