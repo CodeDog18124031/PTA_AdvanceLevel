@@ -1,0 +1,36 @@
+/***********************************************************************************************************************************
+* 主题：1005 Spell It Right
+* 时间：2020-07-26
+***********************************************************************************************************************************/
+#include <iostream>
+#include <cstring>
+#include <stdio.h>
+//#include <cstdlib>
+
+using namespace std;
+int main(){
+    //int maxLengthOfD = 101;
+    string number[10] = {"zero","one","two","three","four","five","six","seven","eight","nine"};
+    char numTmp[101];
+    string numTmpOut;
+    string num;
+    cin >> num;
+
+    int lengthOfNum = num.length();
+    int sum = 0;
+    char tmpNum;
+    for(int i=0; i<lengthOfNum; i++){
+        tmpNum = num[i];
+        sum = sum + (tmpNum - '0');
+    }
+
+    sprintf(numTmp,"%d",sum);
+    numTmpOut = numTmp;
+
+    int sumLength = numTmpOut.length();
+    for(int i=0; i<sumLength-1; i++){
+        cout << number[(numTmpOut[i] - '0')] << " ";
+    }
+    cout << number[(numTmpOut[sumLength-1] - '0')];
+    return 0;
+}
