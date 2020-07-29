@@ -1,0 +1,36 @@
+/***********************************************************************************************************************************
+* 主题：1008 Elevator
+* 时间：2020-07-29
+***********************************************************************************************************************************/
+#include <iostream>
+
+using namespace std;
+
+int main(){
+    int N(0);
+    cin >> N;
+    int listFloor[N+1];
+
+    for(int i=0; i<N; i++){
+        cin >> listFloor[i];
+    }
+    int currentFloor(0);
+    int nextFloor(0);
+    int timeSecond(0);
+
+    for(int i=0; i<N; i++){
+        nextFloor = listFloor[i];
+        if(nextFloor > currentFloor){
+            timeSecond += (nextFloor - currentFloor) * 6;
+            currentFloor = nextFloor;
+            continue;
+        }else if(nextFloor < currentFloor){
+            timeSecond += (currentFloor - nextFloor) * 4;
+            currentFloor = nextFloor;
+            continue;
+        }
+    }
+    timeSecond += N*5;
+
+    cout << timeSecond;
+}
