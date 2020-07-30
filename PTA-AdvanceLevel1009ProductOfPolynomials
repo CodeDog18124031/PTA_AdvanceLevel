@@ -1,0 +1,46 @@
+/***********************************************************************************************************************************
+* 主题：1009 Product of Polynomials
+***********************************************************************************************************************************/
+#include<iostream>
+#include<cstdio>
+using namespace std;
+
+int main()
+{
+    double A[1020]={0.0};
+    double B[1020]={0.0};
+    double C[2020]={0.0};
+    int ka,kb;
+    cin>>ka;
+    for(int i = 0;i<ka;i++)
+    {
+        int nk;
+        double a;
+        cin>>nk>>a;
+        A[nk] = a;
+    }
+    cin>>kb;
+    for(int i = 0;i<kb;i++)
+    {
+        int nk;
+        double a;
+        cin>>nk>>a;
+        B[nk] = a;
+    }
+    for(int i=0;i<=1000;i++)
+        for(int j=0;j<=1000;j++)
+        {
+            C[i+j]+=A[i]*B[j];
+        }
+    int count = 0;
+    for(int i=0;i<=2000;i++)
+        if(C[i]!=0.0)
+            count++;
+    cout<<count;
+    for(int i = 2000;i>=0;i--)
+        if(C[i]!=0.0){
+            cout<<" "<<i<<" ";
+            printf("%.1lf",C[i]);
+        }
+    return 0;
+}
