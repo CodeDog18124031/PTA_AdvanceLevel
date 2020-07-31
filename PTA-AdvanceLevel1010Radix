@@ -1,0 +1,62 @@
+/***********************************************************************************************************************************
+* 主题：1010 Radix
+* 时间：2020-07-31
+***********************************************************************************************************************************/
+#include<iostream>
+#include<algorithm>
+#include<string>
+#include<cstring>
+using namespace std;
+typedef long long LL;
+string n1, n2;
+int tag, radix;
+LL Map[256];
+LL getnum(string s, int radix)
+{
+    LL ans = 0;
+    for (int i = 0; i < s.length(); i++)
+    {
+        ans = ans * radix + Map[s[i]];
+        if (ans < 0)return -1;
+    }
+    return ans;
+}
+LL getlow(string s)
+{ LL maxnum = 0;
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (Map[s[i]] > maxnum)maxnum = Map[s[i]];
+    }
+    return maxnum + 1;
+}
+
+LL Binary(LL low, LL high, string s, LL number)
+{
+    while (low < high)
+    {
+        LL mid = (low + high) / 2;
+        LL result = getnum(s, mid);
+        if (result > number||result==-1)high = mid;
+        else if (result < number)low = mid;
+        else if(result==number)return mid;
+    }
+    return -1;
+}
+void init()
+{
+    for (char c = '0'; c <= '9'; c++)Map[c] = c - '0';
+    for (char c = 'a'; c <= 'z'; c++)Map[c] = c - 'a' + 10;
+}
+int main()
+{
+    init();
+    cin >> n1 >> n2 >> tag >> radix;
+    if (tag == 2)swap(n1, n2);
+    LL number1 = getnum(n1, radix);
+    LL low = getlow(n2);
+    LL high = max(number1, low) + 1;
+    LL ans=Binary(low, high, n2, number1);
+    if (ans != -1)printf("%d", ans);
+    else printf("Impossible");
+    return 0;
+}
