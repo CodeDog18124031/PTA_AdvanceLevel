@@ -1,0 +1,46 @@
+/***********************************************************************************************************************************
+* 主题：1011 World Cup Betting
+* 时间：2020-08-01
+***********************************************************************************************************************************/
+#include <iostream>
+#include <iomanip>
+using namespace std;
+float maxOdd(float * game);
+int maxOddNum(float * tmpGame);
+int main(){
+    char result[] = {'W', 'T', 'L'}; 
+    float game1[3], game2[3], game3[3];
+    for(int i=0; i<3; i++) cin >> game1[i];
+    for(int i=0; i<3; i++) cin >> game2[i];
+    for(int i=0; i<3; i++) cin >> game3[i];
+    
+    float money(0);
+    money = (maxOdd(game1) * maxOdd(game2) * maxOdd(game3) * 0.65 - 1)*2;
+    cout << result[maxOddNum(game1)] << ' ' << result[maxOddNum(game2)] << ' ' << result[maxOddNum(game3)] << ' ' << fixed << setprecision(2) << money;
+	return 0;
+}
+float maxOdd(float * game){
+	float tmp(0);
+	for(int i=0; i<3; i++){
+		if(game[i] > tmp){
+			tmp = game[i];
+			continue;
+		}
+		else tmp = tmp;
+	}
+	return tmp;
+}
+int maxOddNum(float * tmpGame){
+	float tmp(0);
+	int flag(0);
+	for(int i=0; i<3; i++){
+		if(tmpGame[i] > tmp){
+			tmp = tmpGame[i];
+			flag = i;
+		}else {
+			tmp = tmp;
+			flag = flag;
+		}
+	}
+	return flag;
+}
