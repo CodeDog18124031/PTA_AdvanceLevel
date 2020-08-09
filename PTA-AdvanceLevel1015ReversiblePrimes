@@ -1,0 +1,83 @@
+/**************************************************************************************************
+* 主题：1015 Reversible Primes
+* 时间：2020-08-09
+**************************************************************************************************/
+#include <iostream>
+using namespace std;
+bool isPrimes(int n);
+int conversionToD(int tmpN, int tmpD, int * tmp);
+int conversionToNumber(int * Ndr,int tmpD,int tmpNumOfNR); 
+int main(){
+	int N[101];//输入数据N 
+	int D[101];//输入进制数D 
+	int result[101];//存放判断的结果 
+	int numOfN(0);//存放输入的数据组数，方便后续输出等操作
+	
+	int tmp(0);
+	cin >> tmp;
+	while(tmp > 0){  //根据题意，输入为负数表示所有输入组数结束 
+		N[numOfN] = tmp;
+		cin >> tmp;
+		D[numOfN] = tmp;
+		numOfN++;
+		cin>> tmp;
+	}
+	
+	int NConversion[101];//用于存放对N进行D进制转换后的字符串 
+	int NR(0);//用于存放N进行D进制转换后的回文数字的数值 
+	int numOfNR(0);//用于存放N进制转换后数字的位数，方便进制转换 
+	for(int i=0; i<numOfN; i++){
+		if(isPrimes(N[i])){
+			numOfNR = conversionToD(N[i],D[i],NConversion);
+			NR = conversionToNumber(NConversion,D[i],numOfNR);
+			if(isPrimes(NR)){
+				result[i] = 1;
+				continue;
+			}else{
+				result[i] = -1;
+				continue;
+			}
+		}else{
+			result[i] = -1;
+			continue;
+		}
+	}
+	
+	//输出结果 
+	for(int i=0; i<numOfN; i++){
+		if(result[i] > 0){
+			cout << "Yes" << endl;
+		}else if(result[i] < 0){
+			cout << "No" << endl;
+		}
+	} 
+	
+	return 0;
+}
+bool isPrimes(int n){
+	if(1 == n) return false;
+	for(int i=2; i*i <= n; i++){
+		if(0 == (n%i)) return false;
+	}
+	return true;
+}
+int conversionToD(int tmpN, int tmpD, int * tmp){
+	int i(0);
+	while(tmpN>=tmpD){
+		tmp[i] = tmpN%tmpD;
+		tmpN /= tmpD;
+		i++;
+	}
+	tmp[i] = tmpN;
+	i++;
+	return i;
+}
+int conversionToNumber(int * Ndr,int tmpD,int tmpNumOfNR){
+	int num(0);
+	int tmpDi(1);
+	for(int i=tmpNumOfNR-1; i>=0; i--){
+		num = Ndr[i]*tmpDi + num;
+		tmpDi *= tmpD;
+	}
+	return num;
+}
